@@ -5,6 +5,8 @@
  */
 package interfaces;
 
+import java.util.Vector;
+
 /**
  *
  * @author aayushjoglekar
@@ -16,6 +18,10 @@ public class QuizInterface extends javax.swing.JFrame {
      */
     public QuizInterface() {
         initComponents();
+    }
+
+    public QuizInterface(Vector<question> questions) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -505,7 +511,6 @@ public class QuizInterface extends javax.swing.JFrame {
         panelComplex.setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(null);
 
         labelComplexQuestion.setBackground(new java.awt.Color(255, 255, 255));
         labelComplexQuestion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -563,9 +568,8 @@ public class QuizInterface extends javax.swing.JFrame {
         panelComplexLayout.setVerticalGroup(
             panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelComplexLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(complexOption1)
                     .addComponent(complexOption2))
@@ -573,14 +577,12 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(complexOption4)
                     .addComponent(complexOption3))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jPanel2.add(panelComplex, "card2");
 
         panelGood.setBackground(new java.awt.Color(255, 255, 255));
-
-        jScrollPane2.setBorder(null);
 
         labelGoodQuestion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         labelGoodQuestion.setText("jLabel4");
@@ -650,8 +652,6 @@ public class QuizInterface extends javax.swing.JFrame {
         jPanel2.add(panelGood, "card3");
 
         panelTough.setBackground(new java.awt.Color(255, 255, 255));
-
-        jScrollPane3.setBorder(null);
 
         toughQuestionDisplay.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         toughQuestionDisplay.setText("jLabel4");
@@ -787,8 +787,10 @@ public class QuizInterface extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1145, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
