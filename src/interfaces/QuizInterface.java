@@ -112,7 +112,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "..//data//goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
 
         File questionFile = new File(goodQuestionFilePath);
 
@@ -136,7 +136,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "..//data//toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
 
         File questionFile1 = new File(toughQuestionFilePath);
 
@@ -152,7 +152,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // COMPLEX Question
         
-        String complexQuestionFilePath = "..//data//complexQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
 
         File questionFile2 = new File(complexQuestionFilePath);
 
@@ -181,24 +181,16 @@ public class QuizInterface extends javax.swing.JFrame {
     }
     
     
-    public void toggleBookmarkNext(){
-        
-//        if(this.activeQuestionIndex < 19)
-//        {
-//            this.buttonNext.setEnabled(!this.buttonNext.isEnabled());
-//        }
-//        
-//            this.buttonBookmark.setEnabled(!this.buttonBookmark.isEnabled());
-//        
-    }
+         
     
     public void displayQuestion(){
       
         
         if(this.activeQuestionIndex == this.nextOpenQuestionIndex){
 
-            
-           //time to display a new Question
+            this.buttonNext.setEnabled(false);
+            this.buttonBookmark.setEnabled(false);
+
             resetPanel();
             
             
@@ -208,15 +200,20 @@ public class QuizInterface extends javax.swing.JFrame {
         Question activeQuestion = activeQuestionList.get(this.activeQuestionIndex);
         
         int selectedType = activeQuestion.getType();
-          
+        
+        if(this.activeQuestionIndex != 19){
+            this.buttonNext.setEnabled(true);
+        }
+        else{
+            this.buttonNext.setEnabled(false);
+        }
+        this.buttonBookmark.setEnabled(true);
         
             
         if(selectedType == 1)
         {
                 
             //implement GoodQuestion Display Here
-            
-            toggleBookmarkNext();
             
             panelParent.removeAll();
             panelParent.add(panelGood);
@@ -235,8 +232,6 @@ public class QuizInterface extends javax.swing.JFrame {
         {
             //implement ToughQuestion Display Here
             
-            toggleBookmarkNext();
-            
             panelParent.removeAll();
             panelParent.add(panelTough);
             panelParent.repaint();
@@ -251,8 +246,6 @@ public class QuizInterface extends javax.swing.JFrame {
         else if(selectedType == 3)
         {
             //implement ComplexQuestion Display here
-            
-            toggleBookmarkNext();
             
             panelParent.removeAll();
             panelParent.add(panelComplex);
@@ -277,8 +270,6 @@ public class QuizInterface extends javax.swing.JFrame {
     public void resetPanel(){
         
                 
-                //toggleBookmarkNext(); //turns off the buttons
-            
                 panelParent.removeAll();
                 panelParent.add(panelSelect);
                 panelParent.repaint();
@@ -286,7 +277,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
                 questionButtonList[nextOpenQuestionIndex].setEnabled(true);
             
-                this.nextOpenQuestionIndex++;
+                
         
     }
         
@@ -355,6 +346,9 @@ public class QuizInterface extends javax.swing.JFrame {
             
             
         }
+        
+        
+        this.nextOpenQuestionIndex++;
         
         displayQuestion();
             
