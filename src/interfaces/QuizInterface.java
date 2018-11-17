@@ -10,6 +10,8 @@ import Classes.Tough;
 import Classes.Good;
 import Classes.Question;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -39,6 +43,9 @@ public class QuizInterface extends javax.swing.JFrame {
     
     private int nextOpenQuestionIndex;
     private int activeQuestionIndex;
+    
+    Timer timer;
+    private int min=60,sec=0;
             
 
     /**
@@ -82,12 +89,49 @@ public class QuizInterface extends javax.swing.JFrame {
         headerRollNumberLabel.setText(this.rollNumber);
         
         fillQuestionsFromCSV();
-        
+        startTimer();
         initializeQuestionButtons();
             
     
     }
     
+    public void startTimer() {
+        
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if(sec == 0) {
+                    sec=60;
+                    min--;
+                }
+                
+                if(min<0) {
+                    min =0;sec =0;
+                    //time.setText("00:00");
+                    JOptionPane.showMessageDialog(null,"Times UP!!");
+                    timer.stop();
+                    jButton1.doClick();
+                    
+                }
+                sec--;
+                //minute.setText(Integer.toString(min));
+                //second.setText(Integer.toString(sec));
+                if(min < 10 && sec < 10){
+                    time.setText("0"+Integer.toString(min)+":"+"0"+Integer.toString(sec));
+                }
+                else if(min < 10 && sec >= 10 ) {
+                    time.setText("0"+Integer.toString(min)+":"+Integer.toString(sec));
+                }
+                else{
+                    time.setText(Integer.toString(min)+":"+Integer.toString(sec));
+                }
+                
+            }
+        });
+        timer.start();
+        
+    }
     public void initializeQuestionButtons(){
         
         this.questionButtonList[0] = q1;
@@ -117,7 +161,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "C:\\Users\\PNMC\\Documents\\GitHub\\IOOM332C_OfflineQuizSoftware\\src\\data\\goodQuestions.csv";                       // FILE PATH
 
 
         File questionFile = new File(goodQuestionFilePath);
@@ -142,7 +186,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "C:\\Users\\PNMC\\Documents\\GitHub\\IOOM332C_OfflineQuizSoftware\\src\\data\\toughQuestions.csv";                  // FILE PATH
 
 
         File questionFile1 = new File(toughQuestionFilePath);
@@ -160,7 +204,7 @@ public class QuizInterface extends javax.swing.JFrame {
         // COMPLEX Question
         
 
-        String complexQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "C:\\Users\\PNMC\\Documents\\GitHub\\IOOM332C_OfflineQuizSoftware\\src\\data\\complexQuestions.csv";                  // FILE PATH
 
 
         File questionFile2 = new File(complexQuestionFilePath);
@@ -188,6 +232,9 @@ public class QuizInterface extends javax.swing.JFrame {
         
         
     }
+    
+    
+    
     
     public void bookmarkButton(){
         
@@ -407,7 +454,7 @@ public class QuizInterface extends javax.swing.JFrame {
         headerNameLabel = new javax.swing.JLabel();
         headerRollNumberLabel = new javax.swing.JLabel();
         headerTimePanel = new javax.swing.JPanel();
-        headerTimeLabel = new javax.swing.JLabel();
+        time = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         headerOptionsPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -510,10 +557,10 @@ public class QuizInterface extends javax.swing.JFrame {
 
         headerTimePanel.setBackground(new java.awt.Color(44, 62, 80));
 
-        headerTimeLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        headerTimeLabel.setForeground(new java.awt.Color(255, 255, 255));
-        headerTimeLabel.setText("10:56:56");
-        headerTimeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        time.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        time.setForeground(new java.awt.Color(255, 255, 255));
+        time.setText("60:00");
+        time.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("left");
@@ -525,7 +572,7 @@ public class QuizInterface extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerTimePanelLayout.createSequentialGroup()
                 .addContainerGap(174, Short.MAX_VALUE)
                 .addGroup(headerTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(headerTimeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(time, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerTimePanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(34, 34, 34)))
@@ -535,7 +582,7 @@ public class QuizInterface extends javax.swing.JFrame {
             headerTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerTimePanelLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(headerTimeLabel)
+                .addComponent(time)
                 .addGap(3, 3, 3)
                 .addComponent(jLabel1)
                 .addGap(8, 8, 8))
@@ -1401,7 +1448,6 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JLabel headerNameLabel;
     private javax.swing.JPanel headerOptionsPanel;
     private javax.swing.JLabel headerRollNumberLabel;
-    private javax.swing.JLabel headerTimeLabel;
     private javax.swing.JPanel headerTimePanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -1445,6 +1491,7 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JButton q7;
     private javax.swing.JButton q8;
     private javax.swing.JButton q9;
+    private javax.swing.JLabel time;
     private javax.swing.JTextField toughAnswer;
     private javax.swing.JRadioButton typeComplex;
     private javax.swing.JRadioButton typeGood;

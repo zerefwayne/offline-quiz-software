@@ -1,0 +1,16 @@
+Let G be a simple undirected planar graph on 10 vertices with 15 edges. If G is a connected graph then the number of bounded faces in any embedding of G on the plane is equal to,6
+The bisection method is applied to compute a zero of the function f(x) = x4 – x3 – x2 – 4 in the interval [19]. The method converges to a solution after ––––– iterations,3
+Let G be a complete undirected graph on 6 vertices. If vertices of G are labeled then the number of distinct cycles of length 4 in G is equal to,45
+Consider a source computer(S) transmitting a file of size 106 bits to a destination computer(D)over a network of two routers (R1 and R2) and three links(L1 L2 and L3). L1connects S to R1; L2 connects R1 to R2; and L3 connects R2 to D.Let each link be of length 100 km. Assume signals travel over each link at a speed of 108 meters per second.Assume that the link bandwidth on each link is 1Mbps. Let the file be broken down into 1000 packets each of size 1000 bits. Find the total sum of transmission and propagation delays in transmitting the file from S to D?,1005
+How many terms are there in 392781........531441?,12
+A political party orders an arch for the entrance to the ground in which the annual convention is being held. The profile of the arch follows the equation y = 2x – 0.1x2 where y is the height of the arch in meters. The maximum possible height of the arch is,10
+A computer has a 256 KByte 4-way set associative write back data cache with block size of 32 Bytes. The processor sends 32 bit addresses to the cache controller. Each cache tag directory entry contains in addition to address tag 2 valid bits 1 modified bit and 1 replacement bit. The number of bits in the tag field of an address is ,16
+The cost function for a product in a firm is given by 5q2 where q is the amount of production. The firm can sell the product at a market price of Rs 50 per unit. The number of units to be produced by the firm such that the profit is maximized is,5
+If the average of four consecutive odd numbers is 12 find the smallest of these numbers?,9
+The difference between a two-digit number and the number obtained by interchanging the positions of its digits is 45. What is the difference between the two digits of that number?,5
+What is the sum of two consecutive odd numbers the difference of whose squares is 56?,28
+The product of two numbers is 108 and the sum of their squares is 225. The difference of the number is:,3
+What least number must be added to 4000 to obtain a number exactly divisible by 17?,12
+What should be the next number in below series? 3 8 15 24 35…,48
+Three people A B and C working individually can finish a job in 10 12 and 20 days respectively. They decided to work together but after 2 days A left the work and after another one day B also left work. If they got two lacs collectively for the entire work find the difference of the highest and lowest share.,7000
+A person employed a group of 20 men for a construction job. These 20 men working 8 hours a day can complete the job in 28 days. The work started on time but after 18 days it was observed that two thirds of the work was still pending. To avoid penalty and complete the work on time the employer had to employ more men and also increase the working hours to 9 hours a day. Find the additional number of men employed if the efficiency of all men is same.,44
