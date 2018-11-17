@@ -11,11 +11,15 @@ import java.util.ArrayList;
  *
  * @author warlock
  */
-public class Tough extends question{
+public class Tough extends Question{
+    
     private String content;
     private int correctResponse;
+    
     public Tough(String _content,int _correctResponse){
+        super(2);
         this.content = _content;
         this.correctResponse = _correctResponse;
     }
+
 }

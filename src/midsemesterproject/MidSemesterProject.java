@@ -5,6 +5,8 @@
  */
 package midsemesterproject;
 
+import interfaces.Starting;
+
 /**
  *
  * @author aayushjoglekar
@@ -15,7 +17,9 @@ public class MidSemesterProject {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        new Starting().setVisible(true);
+        
     }
     
 }

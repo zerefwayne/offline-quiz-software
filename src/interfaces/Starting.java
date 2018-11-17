@@ -5,6 +5,8 @@
  */
 package interfaces;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author aayushjoglekar
@@ -29,9 +31,9 @@ public class Starting extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        textName = new javax.swing.JTextField();
+        textRN = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        textName1 = new javax.swing.JTextField();
+        textName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         buttonContinue = new javax.swing.JButton();
 
@@ -71,8 +73,8 @@ public class Starting extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textRN, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textName1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(buttonContinue))))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
@@ -84,10 +86,10 @@ public class Starting extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(textName1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textRN, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(36, 36, 36)
                 .addComponent(buttonContinue, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -106,10 +108,23 @@ public class Starting extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonContinueActionPerformed
+
         
+        if(textName.getText().length() == 0 || textRN.getText().length() == 0){
+            
+            JOptionPane.showMessageDialog(null, "Please enter roll number and name to start quiz!");
+            
+        }
+        else
+        {
+            new QuizInterface(textName.getText(), textRN.getText()).setVisible(true);
+            
+            
+        }
         
         
         
@@ -157,6 +172,6 @@ public class Starting extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField textName;
-    private javax.swing.JTextField textName1;
+    private javax.swing.JTextField textRN;
     // End of variables declaration//GEN-END:variables
 }

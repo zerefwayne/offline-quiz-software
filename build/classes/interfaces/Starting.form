@@ -6,7 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -57,8 +57,8 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="textRN" min="-2" pref="176" max="-2" attributes="0"/>
                               <Component id="textName" min="-2" pref="176" max="-2" attributes="0"/>
-                              <Component id="textName1" min="-2" pref="176" max="-2" attributes="0"/>
                               <Component id="buttonContinue" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -75,11 +75,11 @@
                   <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textName1" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="textName" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="textName" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="textRN" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -98,14 +98,14 @@
             <Property name="text" type="java.lang.String" value="Welcome To Online Quiz Software"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textName">
+        <Component class="javax.swing.JTextField" name="textRN">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Name"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textName1">
+        <Component class="javax.swing.JTextField" name="textName">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

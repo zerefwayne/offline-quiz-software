@@ -11,11 +11,16 @@ import java.util.ArrayList;
  *
  * @author warlock
  */
-public class Complex extends question {
+public class Complex extends Question {
+    
     private String content;
     private ArrayList<String>options;
     private ArrayList<String>correctResponses;
+    
     public Complex(String _content,ArrayList<String>_options,ArrayList<String>_correctResponses){
+        
+        super(3);
+        
         this.content = _content;
         this.options = _options;
         this.correctResponses = _correctResponses;

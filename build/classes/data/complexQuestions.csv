@@ -4,30 +4,12 @@ Which of the following statements regarding the features of the object-oriented 
 If the sum of two numbers is 13 and the sum of their square is 85. Find the numbers?,6,4,7,12,1^3
 Which of the following abstract data types can be used to represent a many to many relation?,Tree,Plex,Graph,Linked List,2^3
 A RAM chip has a capacity of 1024 words of 8 bits each (1K × 8). The number of 2 × 4 decoders with enable line needed to construct a 16K × 16 RAM from 1K × 8 RAM is,4,5,6,7,2
-"The product of the non-zero eigenvalues of the matrix
-1 0 0 0 1
-0 1 1 1 0
-0 1 1 1 0
-0 1 1 1 0
-1 0 0 0 1",5,4,1,0,2
 The least number of temporary variables required to create a three-address code in static single assignment form for the expression q + r/3 + s – t * 5 + u * v/w is,8,12,7,6,1
-"Assume that for a certain processor, a read request takes 50 nanoseconds on a cache miss and 5 nanoseconds on a cache hit. Suppose while running a program, it was observed that 80% of the processor’s read requests result in a cache hit. The average read access time in nanoseconds is____________.",5,20,16,10,3
-"A computer has a 256 KByte, 4-way set associative, write back data cache with block size of 32 Bytes. The processor sends 32 bit addresses to the cache controller. Each cache tag directory entry contains, in addition to address tag, 2 valid bits, 1 modified bit and 1 replacement bit. The number of bits in the tag field of an address is",10,12,16,25,3
-"For a pipelines CPU with a single ALU, consider the following: A. The j + 1st instruction uses the result of jth instruction as an operand B. Conditional jump instruction C. jth and j + 1st instructions require ALU at the same time Which one of the above causes a hazard?",A,B,C,D,1^2^3
-"The CPU of a system having 1 MIPS execution rate needs 4 machine cycles on an average for executing an instruction. The fifty percent of the cycles use memory bus. A memory read/ write employs one machine cycle. For execution of the programs, the system utilizes 90 percent of the CPU time. For block data transfer, an IO device is attached to the system while CPU executes the background programs continuously. What is the maximum IO data transfer rate if programmed IO data transfer technique is used?",250 Kbytes/sec,200 Kbytes/sec,125 Kbytes/sec,255 Kbytes/sec,1
-"Which one of the following options provides the CORRECT values of the eigenvalues of the matrix?
-1 2 3
-0 4 7
-0 0 3",1,4,5,3,1^2^4
-"Consider the following Matrix:
-2 3
-x y
- If the eigenvalues of A are 4 and 8, then:",x=-4,y=6,y=10,x=4,1^3
-,,,,,
-"Suppose that the eigenvalues of matrix A are 1, 2, 4. The determinant of (A−1)T is _________ [This Question was originally a Fill-in-the-blanks Question]",1/8,1/4,2,0.125,1^4
+Assume that for a certain processor a read request takes 50 nanoseconds on a cache miss and 5 nanoseconds on a cache hit. Suppose while running a program it was observed that 80% of the processor’s read requests result in a cache hit. The average read access time in nanoseconds is____________.,5,20,16,10,3
+A computer has a 256 KByte 4-way set associative write back data cache with block size of 32 Bytes. The processor sends 32 bit addresses to the cache controller. Each cache tag directory entry contains in addition to address tag 2 valid bits 1 modified bit and 1 replacement bit. The number of bits in the tag field of an address is,10,12,16,25,3
+For a pipelines CPU with a single ALU consider the following: A. The j + 1st instruction uses the result of jth instruction as an operand B. Conditional jump instruction C. jth and j + 1st instructions require ALU at the same time Which one of the above causes a hazard?,A,B,C,D,1^2^3
+The CPU of a system having 1 MIPS execution rate needs 4 machine cycles on an average for executing an instruction. The fifty percent of the cycles use memory bus. A memory read/ write employs one machine cycle. For execution of the programs the system utilizes 90 percent of the CPU time. For block data transfer an IO device is attached to the system while CPU executes the background programs continuously. What is the maximum IO data transfer rate if programmed IO data transfer technique is used?,250 Kbytes/sec,200 Kbytes/sec,125 Kbytes/sec,255 Kbytes/sec,1
+Suppose that the eigenvalues of matrix A are 1 2 4. The determinant of (A−1)T is _________ [This Question was originally a Fill-in-the-blanks Question],1/8,1/4,2,0.125,1^4
 Let A= (aij) be an n-rowed square matrix and I12 be the matrix obtained by interchanging the first and second rows of the n-rowed Identify matrix. Then AI12 is such that its first,row is the same as its second row,row is the same as the second row of A,column is the same as the second column of A,row is all zero,3
-"Which one of the following options is CORRECT given three positive integers x, y and z, and a predicate?
-        
-      P(x) = ¬(x=1)∧∀y(∃z(x=y*z)⇒(y=x)∨(y=1))",P(x) being true means that x is a prime number,P(x) is always true irrespective of the value of x,P(x) is always false irrespective of value of x,P(x) being true means that x has exactly two factors other than 1 and x,1
 Which of the following is true about this pointer?,It is passed as a hidden argument to all function calls,It is passed as a hidden argument to all non-static function call,It is passed as a hidden argument to all static functions,None of the above,2
-"When the inheritance is private, the private methods in base class are __________ in the derived class (in C++).",inaccessible,accessible,private,public,1
+When the inheritance is private the private methods in base class are __________ in the derived class (in C++).,inaccessible,accessible,private,public,1

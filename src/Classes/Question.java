@@ -13,7 +13,9 @@ import java.util.Hashtable;
  *
  * @author warlock
  */
-public class question {
+public class Question {
+    
+    private int type;
     private String content;
     private Dictionary options;
     private int correctAnswer;
@@ -21,6 +23,13 @@ public class question {
     private boolean isAttempted;
     private boolean isCorrect;
     private int marks;
+    
+    public Question(int _type){
+        
+        this.type = _type;
+    
+    }
+    
     public String getContent() {
         return content;
     }
@@ -40,14 +49,10 @@ public class question {
     public boolean isCorrect() {
         return isCorrect;
     }
-
-    public boolean checkAnswer(int _selected){
-        
-        selectedAnswer = _selected;
-        isAttempted = true;
-        isCorrect = (correctAnswer == selectedAnswer);
-
-        return isCorrect;
     
+    public int getType(){
+        return this.type;
     }
+
+   
 }

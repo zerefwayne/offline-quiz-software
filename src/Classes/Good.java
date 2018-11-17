@@ -11,14 +11,20 @@ import java.util.ArrayList;
  *
  * @author warlock
  */
-public class good extends question{
+public class Good extends Question{
 
     private String content;
     private ArrayList<String> options;
     private int correctResponse;
-    public good(String _content,ArrayList<String> _options,int _correctResponse){
+    
+    
+    public Good(String _content,ArrayList<String> _options,int _correctResponse){
+        
+        super(1);
+
         this.content = _content;
         this.options = _options;
         this.correctResponse = _correctResponse;
+    
     }
 }

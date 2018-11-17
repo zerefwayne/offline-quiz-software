@@ -5,25 +5,362 @@
  */
 package interfaces;
 
-import java.util.Vector;
+import Classes.Complex;
+import Classes.Tough;
+import Classes.Good;
+import Classes.Question;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author aayushjoglekar
  */
 public class QuizInterface extends javax.swing.JFrame {
+    
+    private String name;
+    private String rollNumber;
+    
+    private ArrayList<Good> goodQuestions;
+    private ArrayList<Tough> toughQuestions;
+    private ArrayList<Complex> complexQuestions;
+    
+    private ArrayList<Question> activeQuestionList;
+    
+    private JButton[] questionButtonList;
+    
+    
+    private int nextOpenQuestionIndex;
+    private int activeQuestionIndex;
+            
 
     /**
      * Creates new form Starting
+     * @param _name
+     * @param _rollNumber
      */
-    public QuizInterface() {
+    public QuizInterface(String _name, String _rollNumber) {
+        
         initComponents();
+        
+        this.goodQuestions = new ArrayList();
+        this.toughQuestions = new ArrayList<>();
+        this.complexQuestions = new ArrayList<>();
+        
+        this.nextOpenQuestionIndex = 0;
+        this.activeQuestionIndex = 0;
+        
+        this.questionButtonList = new JButton[20];
+        this.activeQuestionList = new ArrayList<>();
+    
+        this.name = _name;
+        this.rollNumber = _rollNumber;
+        
+        fillQuestionsFromCSV();
+        initializeInterface();
+        
+        displayQuestion();
+        
     }
-
-    public QuizInterface(Vector<question> questions) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    
+    
+    public void initializeInterface(){
+    
+        //Set the name and roll number on the header of the interface
+        headerNameLabel.setText(this.name);
+        headerRollNumberLabel.setText(this.rollNumber);
+        
+        fillQuestionsFromCSV();
+        
+        initializeQuestionButtons();
+            
+    
     }
+    
+    public void initializeQuestionButtons(){
+        
+        this.questionButtonList[0] = q1;
+        this.questionButtonList[1] = q2;
+        this.questionButtonList[2] = q3;
+        this.questionButtonList[3] = q4;
+        this.questionButtonList[4] = q5;
+        this.questionButtonList[5] = q6;
+        this.questionButtonList[6] = q7;
+        this.questionButtonList[7] = q8;
+        this.questionButtonList[8] = q9;
+        this.questionButtonList[9] = q10;
+        this.questionButtonList[10] = q11;
+        this.questionButtonList[11] = q12;
+        this.questionButtonList[12] = q13;
+        this.questionButtonList[13] = q14;
+        this.questionButtonList[14] = q15;
+        this.questionButtonList[15] = q16;
+        this.questionButtonList[16] = q17;
+        this.questionButtonList[17] = q18;
+        this.questionButtonList[18] = q19;
+        this.questionButtonList[19] = q20;
+        
+    }
+    
+    public void fillQuestionsFromCSV(){
+        
+        // read GOOD Questions
 
+        String goodQuestionFilePath = "..//data//goodQuestions.csv";                       // FILE PATH
+
+        File questionFile = new File(goodQuestionFilePath);
+
+        try{
+            Scanner inputStream = new Scanner(questionFile);
+            while (inputStream.hasNextLine()){
+                
+                String ques = inputStream.nextLine();
+                
+                String[] values = ques.split(",");           // reading CSV file
+                ArrayList<String>options = new ArrayList<>();
+                
+                
+                options.add(values[1]);options.add(values[2]);options.add(values[3]);options.add(values[4]);
+                
+                goodQuestions.add(new Good(values[0],options,Integer.parseInt(values[5])));    
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        
+        //read TOUGH Questions
+        
+        String toughQuestionFilePath = "..//data//toughQuestions.csv";                  // FILE PATH
+
+        File questionFile1 = new File(toughQuestionFilePath);
+
+        try{
+            Scanner inputStream = new Scanner(questionFile1);
+            while (inputStream.hasNextLine()){
+                String ques = inputStream.nextLine();
+                String[] values = ques.split(",");           // reading CSV file
+                toughQuestions.add(new Tough(values[0],Integer.parseInt(values[1])));    
+            }
+        }catch(FileNotFoundException e){
+        }
+        
+        // COMPLEX Question
+        
+        String complexQuestionFilePath = "..//data//complexQuestions.csv";                  // FILE PATH
+
+        File questionFile2 = new File(complexQuestionFilePath);
+
+        try{
+            Scanner inputStream = new Scanner(questionFile2);
+            while (inputStream.hasNextLine()){
+                String ques = inputStream.nextLine();
+                String[] values = ques.split(",");           // reading CSV file
+                ArrayList<String>options = new ArrayList<>();
+                options.add(values[1]);options.add(values[2]);options.add(values[3]);options.add(values[4]);
+                ArrayList<String>correctAns = new ArrayList<>();
+                String[] correctAnswers = values[5].split("\\^");
+                for(int i=0;i<correctAnswers.length;i++){
+                    correctAns.add(correctAnswers[i]);
+                }
+                complexQuestions.add(new Complex(values[0],options,correctAns));    
+            }
+        }catch(FileNotFoundException e){
+        }
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    public void toggleBookmarkNext(){
+        
+//        if(this.activeQuestionIndex < 19)
+//        {
+//            this.buttonNext.setEnabled(!this.buttonNext.isEnabled());
+//        }
+//        
+//            this.buttonBookmark.setEnabled(!this.buttonBookmark.isEnabled());
+//        
+    }
+    
+    public void displayQuestion(){
+      
+        
+        if(this.activeQuestionIndex == this.nextOpenQuestionIndex){
+
+            
+           //time to display a new Question
+            resetPanel();
+            
+            
+        }
+        else {
+            
+        Question activeQuestion = activeQuestionList.get(this.activeQuestionIndex);
+        
+        int selectedType = activeQuestion.getType();
+          
+        
+            
+        if(selectedType == 1)
+        {
+                
+            //implement GoodQuestion Display Here
+            
+            toggleBookmarkNext();
+            
+            panelParent.removeAll();
+            panelParent.add(panelGood);
+            panelParent.repaint();
+            panelParent.revalidate();
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+        else if (selectedType == 2)
+        {
+            //implement ToughQuestion Display Here
+            
+            toggleBookmarkNext();
+            
+            panelParent.removeAll();
+            panelParent.add(panelTough);
+            panelParent.repaint();
+            panelParent.revalidate();
+            
+            
+            
+            
+
+            
+        }
+        else if(selectedType == 3)
+        {
+            //implement ComplexQuestion Display here
+            
+            toggleBookmarkNext();
+            
+            panelParent.removeAll();
+            panelParent.add(panelComplex);
+            panelParent.repaint();
+            panelParent.revalidate();
+            
+            
+            
+            
+            
+            
+            
+        }
+            
+        }
+        
+        
+        
+        
+    }
+    
+    public void resetPanel(){
+        
+                
+                //toggleBookmarkNext(); //turns off the buttons
+            
+                panelParent.removeAll();
+                panelParent.add(panelSelect);
+                panelParent.repaint();
+                panelParent.revalidate();
+        
+                questionButtonList[nextOpenQuestionIndex].setEnabled(true);
+            
+                this.nextOpenQuestionIndex++;
+        
+    }
+        
+    public void fetchNewQuestion(int _selectedType){
+        
+        //toggleBookmarkNext(); //turns on buttons
+        Random random = new Random();
+        
+         
+        if(_selectedType == 1){
+            
+            //generateRandomNumberAccordingToGoodQuestionSize
+            int index = random.nextInt(goodQuestions.size());
+            
+            //JOptionPane.showMessageDialog(null, goodQuestions.size());
+            
+            //fetch Good Question Here  
+            
+            activeQuestionList.add(goodQuestions.get(index));
+            goodQuestions.remove(index);
+            
+            //take from GoodQuestion List, add it to activeQuestionList[activeQuestionIndex]
+           
+            
+            
+            
+            
+            
+            
+            
+        } else if(_selectedType == 2){
+            
+            //generateRandomNumberAccordingToToughQuestionSize
+            int index = random.nextInt(toughQuestions.size());
+            activeQuestionList.add(toughQuestions.get(index));
+            toughQuestions.remove(index);
+            
+            
+            
+            
+            //fetch Tough Question Here
+            //take from ToughQuestion List, add it to activeQuestionList[activeQuestionIndex]
+           
+            
+            
+            
+            
+            
+        } else if(_selectedType == 3){
+            
+            //generateRandomNumberAccordingToComplexQuestionSize
+            int index = random.nextInt(complexQuestions.size());
+            activeQuestionList.add(complexQuestions.get(index));
+            complexQuestions.remove(index);
+            
+            
+            
+            //fetch Complex Question Here
+            //take from GoodQuestion List, add it to activeQuestionList[activeQuestionIndex]
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+        
+        displayQuestion();
+            
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,7 +406,7 @@ public class QuizInterface extends javax.swing.JFrame {
         q19 = new javax.swing.JButton();
         buttonBookmark = new javax.swing.JButton();
         buttonNext = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        panelParent = new javax.swing.JPanel();
         panelComplex = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         labelComplexQuestion = new javax.swing.JLabel();
@@ -228,6 +565,7 @@ public class QuizInterface extends javax.swing.JFrame {
         q1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         q1.setText("1");
         q1.setAlignmentY(0.0F);
+        q1.setEnabled(false);
         q1.setFocusPainted(false);
         q1.setPreferredSize(new java.awt.Dimension(40, 40));
         q1.addActionListener(new java.awt.event.ActionListener() {
@@ -504,9 +842,14 @@ public class QuizInterface extends javax.swing.JFrame {
         buttonNext.setBackground(new java.awt.Color(52, 152, 219));
         buttonNext.setForeground(new java.awt.Color(255, 255, 255));
         buttonNext.setText("Next");
+        buttonNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNextActionPerformed(evt);
+            }
+        });
         mainPanel.add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, -1, -1));
 
-        jPanel2.setLayout(new java.awt.CardLayout());
+        panelParent.setLayout(new java.awt.CardLayout());
 
         panelComplex.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -577,10 +920,10 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(complexOption4)
                     .addComponent(complexOption3))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        jPanel2.add(panelComplex, "card2");
+        panelParent.add(panelComplex, "card2");
 
         panelGood.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -649,7 +992,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        jPanel2.add(panelGood, "card3");
+        panelParent.add(panelGood, "card3");
 
         panelTough.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -683,7 +1026,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jPanel2.add(panelTough, "card4");
+        panelParent.add(panelTough, "card4");
 
         panelSelect.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -757,9 +1100,9 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
-        jPanel2.add(panelSelect, "card5");
+        panelParent.add(panelSelect, "card5");
 
-        mainPanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 640, 270));
+        mainPanel.add(panelParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 640, 270));
 
         jPanel3.setBackground(new java.awt.Color(52, 152, 219));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -804,94 +1147,131 @@ public class QuizInterface extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonBookmarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBookmarkActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonBookmarkActionPerformed
 
-    private void complexOption1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complexOption1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_complexOption1ActionPerformed
-
     private void q3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q3ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 2;
+        displayQuestion();
+        
     }//GEN-LAST:event_q3ActionPerformed
 
     private void q1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q1ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 0;
+        displayQuestion();
     }//GEN-LAST:event_q1ActionPerformed
 
     private void q2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q2ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 1;
+        displayQuestion();
     }//GEN-LAST:event_q2ActionPerformed
 
     private void q4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q4ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 3;
+        displayQuestion();
     }//GEN-LAST:event_q4ActionPerformed
 
     private void q5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q5ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 4;
+        displayQuestion();
     }//GEN-LAST:event_q5ActionPerformed
 
     private void q6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q6ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 5;
+        displayQuestion();
     }//GEN-LAST:event_q6ActionPerformed
 
     private void q11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q11ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 10;
+        displayQuestion();
     }//GEN-LAST:event_q11ActionPerformed
 
     private void q9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q9ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 8;
+        displayQuestion();
     }//GEN-LAST:event_q9ActionPerformed
 
     private void q8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q8ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 7;
+        displayQuestion();
     }//GEN-LAST:event_q8ActionPerformed
 
     private void q7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q7ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 6;
+        displayQuestion();
     }//GEN-LAST:event_q7ActionPerformed
 
     private void q10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q10ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 9;
+        displayQuestion();
     }//GEN-LAST:event_q10ActionPerformed
 
     private void q13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q13ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 12;
+        displayQuestion();
     }//GEN-LAST:event_q13ActionPerformed
 
     private void q12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q12ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 11;
+        displayQuestion();
     }//GEN-LAST:event_q12ActionPerformed
 
     private void q17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q17ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 16;
+        displayQuestion();
     }//GEN-LAST:event_q17ActionPerformed
 
     private void q16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q16ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 15;
+        displayQuestion();
     }//GEN-LAST:event_q16ActionPerformed
 
     private void q15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q15ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 14;
+        displayQuestion();
     }//GEN-LAST:event_q15ActionPerformed
 
     private void q14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q14ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 13;
     }//GEN-LAST:event_q14ActionPerformed
 
     private void q20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q20ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 19;
+        displayQuestion();
     }//GEN-LAST:event_q20ActionPerformed
 
     private void q18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q18ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 17;
+        displayQuestion();
     }//GEN-LAST:event_q18ActionPerformed
 
     private void q19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q19ActionPerformed
         // TODO add your handling code here:
+        this.activeQuestionIndex = 18;
+        displayQuestion();
     }//GEN-LAST:event_q19ActionPerformed
 
     private void typeGoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeGoodActionPerformed
@@ -900,7 +1280,37 @@ public class QuizInterface extends javax.swing.JFrame {
 
     private void buttonTypeSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTypeSelectActionPerformed
         // TODO add your handling code here:
+        
+        
+        int questionTypeSelected;
+        
+        //1 - goodQuestion 2 - toughQuestion 3 - complexQuestion 0 - questionSelectPanel
+        
+        if(typeGood.isSelected()){
+            questionTypeSelected = 1;
+        } else if(typeTough.isSelected()){
+            questionTypeSelected = 2;
+        } else {
+            questionTypeSelected = 3;
+        }
+        
+        fetchNewQuestion(questionTypeSelected);
+        
+        
+        
     }//GEN-LAST:event_buttonTypeSelectActionPerformed
+
+    private void complexOption1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complexOption1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_complexOption1ActionPerformed
+
+    private void buttonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNextActionPerformed
+        // TODO add your handling code here:
+        
+        this.activeQuestionIndex++;
+        displayQuestion();
+        
+    }//GEN-LAST:event_buttonNextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -933,7 +1343,7 @@ public class QuizInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QuizInterface().setVisible(true);
+               
             }
         });
     }
@@ -965,7 +1375,6 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -977,6 +1386,7 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel panelComplex;
     private javax.swing.JPanel panelGood;
+    private javax.swing.JPanel panelParent;
     private javax.swing.JPanel panelQuestionButtons;
     private javax.swing.JPanel panelSelect;
     private javax.swing.JPanel panelTough;
