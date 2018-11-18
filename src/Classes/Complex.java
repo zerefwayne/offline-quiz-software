@@ -15,9 +15,10 @@ public class Complex extends Question {
     
     private String content;
     private ArrayList<String>options;
-    private ArrayList<String>correctResponses;
+    private ArrayList<Integer>correctResponses;
+    private ArrayList<Integer>selectedAnswer;
     
-    public Complex(String _content,ArrayList<String>_options,ArrayList<String>_correctResponses){
+    public Complex(String _content,ArrayList<String>_options,ArrayList<Integer>_correctResponses){
         
         super(3,_content);
         
@@ -34,12 +35,21 @@ public class Complex extends Question {
 //        return options;
 //    }
 
-    public ArrayList<String> getCorrectResponses() {
+    public ArrayList<Integer> getCorrectResponses() {
         return correctResponses;
     }
     
     public String getOption(int index){
         return options.get(index);
     }
+
+    public ArrayList<Integer> getSelectedAnswer() {
+        return selectedAnswer;
+    }
+    
+
+    
+    
+    
     
 }

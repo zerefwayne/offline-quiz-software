@@ -15,6 +15,7 @@ public class Tough extends Question{
     
     private String content;
     private int correctResponse;
+    private int selectedAnswer;
     
     public Tough(String _content,int _correctResponse){
         super(2,_content);
@@ -32,6 +33,10 @@ public class Tough extends Question{
     
     public String getOption(int index){
         return "end";
+    }
+    
+    public int getSelectedAnswer() {
+        return selectedAnswer;
     }
     
 }
