@@ -9,13 +9,14 @@ import Classes.Complex;
 import Classes.Tough;
 import Classes.Good;
 import Classes.Question;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +34,7 @@ public class QuizInterface extends javax.swing.JFrame {
     private ArrayList<Question> activeQuestionList;
     
     private JButton[] questionButtonList;
+    private boolean[] bookmarkList;
     
     
     private int nextOpenQuestionIndex;
@@ -51,6 +53,9 @@ public class QuizInterface extends javax.swing.JFrame {
         this.goodQuestions = new ArrayList();
         this.toughQuestions = new ArrayList<>();
         this.complexQuestions = new ArrayList<>();
+        this.bookmarkList = new boolean[20];
+        
+        Arrays.fill(bookmarkList, false);
         
         this.nextOpenQuestionIndex = 0;
         this.activeQuestionIndex = 0;
@@ -180,7 +185,27 @@ public class QuizInterface extends javax.swing.JFrame {
         
     }
     
-    
+    public void bookmarkButton(){
+        
+        if(this.bookmarkList[this.activeQuestionIndex] == true){
+            
+            this.buttonBookmark.setText("Unbookmark");
+            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.red);
+           
+            
+            
+        } else {
+            
+            this.buttonBookmark.setText("Bookmark");
+            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.white);
+            
+            
+            
+            
+        }
+        
+        
+    }
          
     
     public void displayQuestion(){
@@ -209,7 +234,8 @@ public class QuizInterface extends javax.swing.JFrame {
         }
         this.buttonBookmark.setEnabled(true);
         
-            
+        bookmarkButton();
+        
         if(selectedType == 1)
         {
                 
@@ -1146,6 +1172,11 @@ public class QuizInterface extends javax.swing.JFrame {
 
     private void buttonBookmarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBookmarkActionPerformed
         // TODO add your handling code here:
+        
+        bookmarkList[this.activeQuestionIndex] = !bookmarkList[this.activeQuestionIndex];
+        displayQuestion();
+        
+        
     }//GEN-LAST:event_buttonBookmarkActionPerformed
 
     private void q3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q3ActionPerformed
