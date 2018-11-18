@@ -13,10 +13,10 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,6 +34,7 @@ public class QuizInterface extends javax.swing.JFrame {
     private ArrayList<Question> activeQuestionList;
     
     private JButton[] questionButtonList;
+    private boolean[] bookmarkList;
     
     
     private int nextOpenQuestionIndex;
@@ -52,6 +53,9 @@ public class QuizInterface extends javax.swing.JFrame {
         this.goodQuestions = new ArrayList();
         this.toughQuestions = new ArrayList<>();
         this.complexQuestions = new ArrayList<>();
+        this.bookmarkList = new boolean[20];
+        
+        Arrays.fill(bookmarkList, false);
         
         this.nextOpenQuestionIndex = 0;
         this.activeQuestionIndex = 0;
@@ -115,6 +119,7 @@ public class QuizInterface extends javax.swing.JFrame {
 
         String goodQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
 
+
         File questionFile = new File(goodQuestionFilePath);
 
         try{
@@ -139,6 +144,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         String toughQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
 
+
         File questionFile1 = new File(toughQuestionFilePath);
 
         try{
@@ -153,7 +159,9 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // COMPLEX Question
         
+
         String complexQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
+
 
         File questionFile2 = new File(complexQuestionFilePath);
 
@@ -181,25 +189,37 @@ public class QuizInterface extends javax.swing.JFrame {
         
     }
     
-    
-    public void toggleBookmarkNext(){
+    public void bookmarkButton(){
         
-//        if(this.activeQuestionIndex < 19)
-//        {
-//            this.buttonNext.setEnabled(!this.buttonNext.isEnabled());
-//        }
-//        
-//            this.buttonBookmark.setEnabled(!this.buttonBookmark.isEnabled());
-//        
+        if(this.bookmarkList[this.activeQuestionIndex] == true){
+            
+            this.buttonBookmark.setText("Unbookmark");
+            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.red);
+           
+            
+            
+        } else {
+            
+            this.buttonBookmark.setText("Bookmark");
+            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.white);
+            
+            
+            
+            
+        }
+        
+        
     }
+         
     
     public void displayQuestion(){
       
         
         if(this.activeQuestionIndex == this.nextOpenQuestionIndex){
 
-            
-           //time to display a new Question
+            this.buttonNext.setEnabled(false);
+            this.buttonBookmark.setEnabled(false);
+
             resetPanel();
             
             
@@ -209,15 +229,21 @@ public class QuizInterface extends javax.swing.JFrame {
         Question activeQuestion = activeQuestionList.get(this.activeQuestionIndex);
         
         int selectedType = activeQuestion.getType();
-          
         
-            
+        if(this.activeQuestionIndex != 19){
+            this.buttonNext.setEnabled(true);
+        }
+        else{
+            this.buttonNext.setEnabled(false);
+        }
+        this.buttonBookmark.setEnabled(true);
+        
+        bookmarkButton();
+        
         if(selectedType == 1)
         {
                 
             //implement GoodQuestion Display Here
-            
-            toggleBookmarkNext();
             
             panelParent.removeAll();
             panelParent.add(panelGood);
@@ -238,8 +264,6 @@ public class QuizInterface extends javax.swing.JFrame {
         {
             //implement ToughQuestion Display Here
             
-            toggleBookmarkNext();
-            
             panelParent.removeAll();
             panelParent.add(panelTough);
             panelParent.repaint();
@@ -254,8 +278,6 @@ public class QuizInterface extends javax.swing.JFrame {
         else if(selectedType == 3)
         {
             //implement ComplexQuestion Display here
-            
-            toggleBookmarkNext();
             
             panelParent.removeAll();
             panelParent.add(panelComplex);
@@ -283,8 +305,6 @@ public class QuizInterface extends javax.swing.JFrame {
     public void resetPanel(){
         
                 
-                //toggleBookmarkNext(); //turns off the buttons
-            
                 panelParent.removeAll();
                 panelParent.add(panelSelect);
                 panelParent.repaint();
@@ -292,7 +312,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
                 questionButtonList[nextOpenQuestionIndex].setEnabled(true);
             
-                this.nextOpenQuestionIndex++;
+                
         
     }
         
@@ -361,6 +381,9 @@ public class QuizInterface extends javax.swing.JFrame {
             
             
         }
+        
+        
+        this.nextOpenQuestionIndex++;
         
         displayQuestion();
             
@@ -1158,6 +1181,11 @@ public class QuizInterface extends javax.swing.JFrame {
 
     private void buttonBookmarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBookmarkActionPerformed
         // TODO add your handling code here:
+        
+        bookmarkList[this.activeQuestionIndex] = !bookmarkList[this.activeQuestionIndex];
+        displayQuestion();
+        
+        
     }//GEN-LAST:event_buttonBookmarkActionPerformed
 
     private void q3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_q3ActionPerformed
