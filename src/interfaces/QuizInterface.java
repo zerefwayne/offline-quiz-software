@@ -9,6 +9,7 @@ import Classes.Complex;
 import Classes.Tough;
 import Classes.Good;
 import Classes.Question;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "..//data//goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
 
         File questionFile = new File(goodQuestionFilePath);
 
@@ -136,7 +137,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "..//data//toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
 
         File questionFile1 = new File(toughQuestionFilePath);
 
@@ -152,7 +153,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // COMPLEX Question
         
-        String complexQuestionFilePath = "..//data//complexQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "/home/warlock/Desktop/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
 
         File questionFile2 = new File(complexQuestionFilePath);
 
@@ -222,9 +223,11 @@ public class QuizInterface extends javax.swing.JFrame {
             panelParent.add(panelGood);
             panelParent.repaint();
             panelParent.revalidate();
-            
-            
-            
+            labelGoodQuestion.setText(activeQuestion.getContent());
+            goodOption1.setText(activeQuestion.getOption(0));
+            goodOption2.setText(activeQuestion.getOption(1));
+            goodOption3.setText(activeQuestion.getOption(2));
+            goodOption4.setText(activeQuestion.getOption(3));
             
             
             
@@ -241,7 +244,7 @@ public class QuizInterface extends javax.swing.JFrame {
             panelParent.add(panelTough);
             panelParent.repaint();
             panelParent.revalidate();
-            
+            labelToughQuestion.setText(activeQuestion.getContent());
             
             
             
@@ -258,8 +261,11 @@ public class QuizInterface extends javax.swing.JFrame {
             panelParent.add(panelComplex);
             panelParent.repaint();
             panelParent.revalidate();
-            
-            
+            labelComplexQuestion.setText(activeQuestion.getContent());
+            complexOption1.setText(activeQuestion.getOption(0));
+            complexOption2.setText(activeQuestion.getOption(1));
+            complexOption3.setText(activeQuestion.getOption(2));
+            complexOption4.setText(activeQuestion.getOption(3));
             
             
             
@@ -423,7 +429,7 @@ public class QuizInterface extends javax.swing.JFrame {
         goodOption4 = new javax.swing.JRadioButton();
         panelTough = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        toughQuestionDisplay = new javax.swing.JLabel();
+        labelToughQuestion = new javax.swing.JLabel();
         toughAnswer = new javax.swing.JTextField();
         panelSelect = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -920,7 +926,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(complexOption4)
                     .addComponent(complexOption3))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         panelParent.add(panelComplex, "card2");
@@ -996,10 +1002,10 @@ public class QuizInterface extends javax.swing.JFrame {
 
         panelTough.setBackground(new java.awt.Color(255, 255, 255));
 
-        toughQuestionDisplay.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        toughQuestionDisplay.setText("jLabel4");
-        toughQuestionDisplay.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jScrollPane3.setViewportView(toughQuestionDisplay);
+        labelToughQuestion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        labelToughQuestion.setText("jLabel4");
+        labelToughQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jScrollPane3.setViewportView(labelToughQuestion);
 
         toughAnswer.setName(""); // NOI18N
 
@@ -1383,6 +1389,7 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JLabel labelGoodQuestion;
     private javax.swing.JLabel labelQuestionAttemptedCount;
     private javax.swing.JLabel labelQuestionAttemptedCount1;
+    private javax.swing.JLabel labelToughQuestion;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel panelComplex;
     private javax.swing.JPanel panelGood;
@@ -1411,7 +1418,6 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JButton q8;
     private javax.swing.JButton q9;
     private javax.swing.JTextField toughAnswer;
-    private javax.swing.JLabel toughQuestionDisplay;
     private javax.swing.JRadioButton typeComplex;
     private javax.swing.JRadioButton typeGood;
     private javax.swing.JRadioButton typeTough;

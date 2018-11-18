@@ -19,10 +19,27 @@ public class Complex extends Question {
     
     public Complex(String _content,ArrayList<String>_options,ArrayList<String>_correctResponses){
         
-        super(3);
+        super(3,_content);
         
         this.content = _content;
         this.options = _options;
         this.correctResponses = _correctResponses;
     }
+
+    public String getContent() {
+        return content;
+    }
+
+//    public ArrayList<String> getOptions() {
+//        return options;
+//    }
+
+    public ArrayList<String> getCorrectResponses() {
+        return correctResponses;
+    }
+    
+    public String getOption(int index){
+        return options.get(index);
+    }
+    
 }

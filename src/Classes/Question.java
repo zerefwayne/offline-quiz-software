@@ -13,7 +13,7 @@ import java.util.Hashtable;
  *
  * @author warlock
  */
-public class Question {
+abstract public class Question {
     
     private int type;
     private String content;
@@ -24,9 +24,10 @@ public class Question {
     private boolean isCorrect;
     private int marks;
     
-    public Question(int _type){
+    public Question(int _type,String _content){
         
         this.type = _type;
+        this.content = _content;
     
     }
     
@@ -54,5 +55,5 @@ public class Question {
         return this.type;
     }
 
-   
+   abstract public String getOption(int index);
 }

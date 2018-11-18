@@ -17,9 +17,21 @@ public class Tough extends Question{
     private int correctResponse;
     
     public Tough(String _content,int _correctResponse){
-        super(2);
+        super(2,_content);
         this.content = _content;
         this.correctResponse = _correctResponse;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public int getCorrectResponse() {
+        return correctResponse;
+    }
+    
+    public String getOption(int index){
+        return "end";
+    }
+    
 }
