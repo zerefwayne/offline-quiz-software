@@ -35,9 +35,7 @@ abstract public class Question {
         return content;
     }
 
-    public int getSelectedAnswer() {
-        return selectedAnswer;
-    }
+    
 
     public Dictionary getOptions() {
         return options;
@@ -55,5 +53,12 @@ abstract public class Question {
         return this.type;
     }
 
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+    
+   
+
    abstract public String getOption(int index);
+   
 }

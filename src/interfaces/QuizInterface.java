@@ -21,11 +21,8 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import java.util.*;
 
-/**
- *
- * @author aayushjoglekar
- */
 public class QuizInterface extends javax.swing.JFrame {
     
     private String name;
@@ -43,6 +40,7 @@ public class QuizInterface extends javax.swing.JFrame {
     
     private int nextOpenQuestionIndex;
     private int activeQuestionIndex;
+    private int totalMarks;
     
     Timer timer;
     private int min=60,sec=0;
@@ -79,8 +77,6 @@ public class QuizInterface extends javax.swing.JFrame {
         displayQuestion();
         
     }
-    
-    
     
     public void initializeInterface(){
     
@@ -132,6 +128,7 @@ public class QuizInterface extends javax.swing.JFrame {
         timer.start();
         
     }
+    
     public void initializeQuestionButtons(){
         
         this.questionButtonList[0] = q1;
@@ -161,7 +158,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "C:\\Users\\PNMC\\Documents\\GitHub\\IOOM332C_OfflineQuizSoftware\\src\\data\\goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "/home/beaku/Documents/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
 
 
         File questionFile = new File(goodQuestionFilePath);
@@ -186,7 +183,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "C:\\Users\\PNMC\\Documents\\GitHub\\IOOM332C_OfflineQuizSoftware\\src\\data\\toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "/home/beaku/Documents/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
 
 
         File questionFile1 = new File(toughQuestionFilePath);
@@ -204,7 +201,7 @@ public class QuizInterface extends javax.swing.JFrame {
         // COMPLEX Question
         
 
-        String complexQuestionFilePath = "C:\\Users\\PNMC\\Documents\\GitHub\\IOOM332C_OfflineQuizSoftware\\src\\data\\complexQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "/home/beaku/Documents/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                  // FILE PATH
 
 
         File questionFile2 = new File(complexQuestionFilePath);
@@ -216,11 +213,12 @@ public class QuizInterface extends javax.swing.JFrame {
                 String[] values = ques.split(",");           // reading CSV file
                 ArrayList<String>options = new ArrayList<>();
                 options.add(values[1]);options.add(values[2]);options.add(values[3]);options.add(values[4]);
-                ArrayList<String>correctAns = new ArrayList<>();
+                ArrayList<Integer>correctAns = new ArrayList<>();
                 String[] correctAnswers = values[5].split("\\^");
                 for(int i=0;i<correctAnswers.length;i++){
-                    correctAns.add(correctAnswers[i]);
+                    correctAns.add(Integer.parseInt(correctAnswers[i]));
                 }
+                Collections.sort(correctAns);
                 complexQuestions.add(new Complex(values[0],options,correctAns));    
             }
         }catch(FileNotFoundException e){
@@ -232,9 +230,6 @@ public class QuizInterface extends javax.swing.JFrame {
         
         
     }
-    
-    
-    
     
     public void bookmarkButton(){
         
@@ -257,7 +252,6 @@ public class QuizInterface extends javax.swing.JFrame {
         
         
     }
-         
     
     public void displayQuestion(){
       
@@ -434,6 +428,64 @@ public class QuizInterface extends javax.swing.JFrame {
         
         displayQuestion();
             
+    }
+    
+    public void checkQuestions()
+    {
+        for(int i=0; i<activeQuestionList.size();i++)
+        {
+            Question tempQuestion= activeQuestionList.get(i);
+            int tempQuestionType = tempQuestion.getType();
+            switch(tempQuestionType) {
+                case 1:
+                Good tempGoodQuestion =(Good) tempQuestion;
+                if(tempGoodQuestion.getSelectedAnswer()==tempGoodQuestion.getCorrectResponse())
+                {
+                    totalMarks+=3;
+                    tempQuestion.setIsCorrect(true);
+                }
+                else
+                {
+                    totalMarks-=1;
+                    tempQuestion.setIsCorrect(false);
+                }
+                break;
+                
+                case 2:
+                Tough tempToughQuestion = (Tough) tempQuestion;    
+                if(tempToughQuestion.getSelectedAnswer()==tempToughQuestion.getCorrectResponse())
+                {
+                    totalMarks+=4;
+                    tempQuestion.setIsCorrect(true);
+                }
+                
+                else
+                {
+                    totalMarks-=2;
+                    tempQuestion.setIsCorrect(false);
+                }
+                break;
+                
+                case 3:
+                Complex tempComplexQuestion = (Complex) tempQuestion; 
+                ArrayList<Integer> tempCorrectAnswers = tempComplexQuestion.getCorrectResponses();
+                ArrayList<Integer> tempSelectedAnswers = tempComplexQuestion.getSelectedAnswer();
+                if(tempSelectedAnswers.equals(tempCorrectAnswers))
+                {
+                    totalMarks+=5;
+                    tempQuestion.setIsCorrect(true);
+                }
+                
+                else
+                {
+                    totalMarks-=3;
+                    tempQuestion.setIsCorrect(false);
+                }
+               break;
+       
+            }
+            
+        }
     }
     
     

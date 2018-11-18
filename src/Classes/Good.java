@@ -16,6 +16,7 @@ public class Good extends Question{
     private String content;
     private ArrayList<String> options;
     private int correctResponse;
+    private int selectedAnswer;
     
     
     public Good(String _content,ArrayList<String> _options,int _correctResponse){
@@ -43,5 +44,10 @@ public class Good extends Question{
     public String getOption(int index){
         return options.get(index);
     }
+    
+    public int getSelectedAnswer() {
+        return selectedAnswer;
+    }
+    
     
 }
