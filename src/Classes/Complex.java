@@ -6,6 +6,7 @@
 package Classes;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -47,6 +48,15 @@ public class Complex extends Question {
         return selectedAnswer;
     }
     
+    public void setSelectedAnswer(ArrayList<Integer> answers){
+        
+        for(Integer i: answers){
+            JOptionPane.showMessageDialog(null, i);
+        }
+        
+        this.selectedAnswer = answers;
+        
+    }
 
     
     

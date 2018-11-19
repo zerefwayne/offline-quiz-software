@@ -39,4 +39,8 @@ public class Tough extends Question{
         return selectedAnswer;
     }
     
+    public void setSelectedAnswer(int _selectedAnswer){
+        
+        this.selectedAnswer = _selectedAnswer;
+    }
 }

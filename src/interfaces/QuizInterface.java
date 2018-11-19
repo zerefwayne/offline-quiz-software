@@ -35,7 +35,7 @@ public class QuizInterface extends javax.swing.JFrame {
     private ArrayList<Question> activeQuestionList;
     
     private JButton[] questionButtonList;
-    private boolean[] bookmarkList;
+    private int[] statusList;
     
     
     private int nextOpenQuestionIndex;
@@ -58,12 +58,14 @@ public class QuizInterface extends javax.swing.JFrame {
         this.goodQuestions = new ArrayList();
         this.toughQuestions = new ArrayList<>();
         this.complexQuestions = new ArrayList<>();
-        this.bookmarkList = new boolean[20];
+        this.statusList = new int[20];
         
-        Arrays.fill(bookmarkList, false);
+        Arrays.fill(statusList, 0);
         
         this.nextOpenQuestionIndex = 0;
         this.activeQuestionIndex = 0;
+        
+        this.totalMarks = 0;
         
         this.questionButtonList = new JButton[20];
         this.activeQuestionList = new ArrayList<>();
@@ -158,7 +160,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "/home/beaku/Documents/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
 
 
         File questionFile = new File(goodQuestionFilePath);
@@ -183,7 +185,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "/home/beaku/Documents/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
 
 
         File questionFile1 = new File(toughQuestionFilePath);
@@ -201,7 +203,7 @@ public class QuizInterface extends javax.swing.JFrame {
         // COMPLEX Question
         
 
-        String complexQuestionFilePath = "/home/beaku/Documents/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
 
 
         File questionFile2 = new File(complexQuestionFilePath);
@@ -231,25 +233,30 @@ public class QuizInterface extends javax.swing.JFrame {
         
     }
     
-    public void bookmarkButton(){
+    public void updateStatus(){
         
-        if(this.bookmarkList[this.activeQuestionIndex] == true){
-            
-            this.buttonBookmark.setText("Unbookmark");
-            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.red);
-           
+        if(this.statusList[this.activeQuestionIndex] == 0){
             
             
-        } else {
-            
-            this.buttonBookmark.setText("Bookmark");
             this.questionButtonList[this.activeQuestionIndex].setBackground(Color.white);
+            this.buttonBookmark.setText("Bookmark");
             
             
             
+        } else if(this.statusList[this.activeQuestionIndex] == 1) {
             
+            this.buttonBookmark.setEnabled(true);
+            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.red);
+            this.buttonBookmark.setText("Unbookmark");
+            
+            
+            
+        } else if(this.statusList[this.activeQuestionIndex] == 2) {
+                
+            this.questionButtonList[this.activeQuestionIndex].setBackground(Color.green);
+           
         }
-        
+
         
     }
     
@@ -267,9 +274,11 @@ public class QuizInterface extends javax.swing.JFrame {
         }
         else {
             
-        Question activeQuestion = activeQuestionList.get(this.activeQuestionIndex);
+        resetOptionsPanel();    
+            
+        Question correctQuestion = activeQuestionList.get(this.activeQuestionIndex);
         
-        int selectedType = activeQuestion.getType();
+        int selectedType = correctQuestion.getType();
         
         if(this.activeQuestionIndex != 19){
             this.buttonNext.setEnabled(true);
@@ -279,37 +288,66 @@ public class QuizInterface extends javax.swing.JFrame {
         }
         this.buttonBookmark.setEnabled(true);
         
-        bookmarkButton();
+        updateStatus();
         
         if(selectedType == 1)
         {
                 
+            Good activeQuestion = (Good) activeQuestionList.get(this.activeQuestionIndex);
             //implement GoodQuestion Display Here
             
             panelParent.removeAll();
             panelParent.add(panelGood);
             panelParent.repaint();
             panelParent.revalidate();
+            
             labelGoodQuestion.setText(activeQuestion.getContent());
             goodOption1.setText(activeQuestion.getOption(0));
             goodOption2.setText(activeQuestion.getOption(1));
             goodOption3.setText(activeQuestion.getOption(2));
             goodOption4.setText(activeQuestion.getOption(3));
             
-            
-            
-            
+            if(activeQuestion.isAttempted()){
+                
+                if(activeQuestion.getSelectedAnswer() == 1){
+                   
+                   goodOption1.setSelected(true);
+                } else if(activeQuestion.getSelectedAnswer() == 2){
+                   goodOption2.setSelected(true);
+                   
+                } else if(activeQuestion.getSelectedAnswer() == 3){
+                   goodOption3.setSelected(true);
+                   
+                } else if(activeQuestion.getSelectedAnswer() == 4){
+                   goodOption4.setSelected(true);
+                  
+                }
+                
+            }
             
         }
         else if (selectedType == 2)
         {
+            Tough activeQuestion = (Tough) activeQuestionList.get(this.activeQuestionIndex);
             //implement ToughQuestion Display Here
             
             panelParent.removeAll();
             panelParent.add(panelTough);
             panelParent.repaint();
             panelParent.revalidate();
+            
             labelToughQuestion.setText(activeQuestion.getContent());
+          
+            
+            if(activeQuestion.isAttempted()){
+                
+                toughAnswer.setText(Integer.toString(activeQuestion.getSelectedAnswer()));
+                
+            }
+            else
+            {
+                toughAnswer.setText("");
+            }
             
             
             
@@ -319,6 +357,8 @@ public class QuizInterface extends javax.swing.JFrame {
         else if(selectedType == 3)
         {
             //implement ComplexQuestion Display here
+            
+            Complex activeQuestion = (Complex) activeQuestionList.get(this.activeQuestionIndex);
             
             panelParent.removeAll();
             panelParent.add(panelComplex);
@@ -330,7 +370,37 @@ public class QuizInterface extends javax.swing.JFrame {
             complexOption3.setText(activeQuestion.getOption(2));
             complexOption4.setText(activeQuestion.getOption(3));
             
-            
+            if(activeQuestion.isAttempted()){
+                
+               ArrayList<Integer> attemptedAnswers = activeQuestion.getSelectedAnswer();
+               
+               for(int i=0; i<attemptedAnswers.size(); i++){
+                   
+                   int x = attemptedAnswers.get(i);
+                   
+                   if(x == 1){
+                       
+                       complexOption1.setSelected(true);
+                       
+                   } else if(x == 2){
+                       
+                       complexOption2.setSelected(true);
+                       
+                   } else if(x == 3){
+                       
+                       complexOption3.setSelected(true);
+                       
+                   } else if(x == 4){
+                       
+                       complexOption4.setSelected(true);
+                       
+                   }
+                   
+                   
+                   
+               }
+                
+            }
             
             
             
@@ -357,6 +427,22 @@ public class QuizInterface extends javax.swing.JFrame {
         
     }
         
+    public void resetOptionsPanel(){
+        
+            complexOption1.setSelected(false);
+            complexOption2.setSelected(false);
+            complexOption3.setSelected(false);
+            complexOption4.setSelected(false);
+            
+               
+            buttonGroup2.clearSelection();
+           
+            
+            toughAnswer.setText("");
+        
+        
+    }
+    
     public void fetchNewQuestion(int _selectedType){
         
         //toggleBookmarkNext(); //turns on buttons
@@ -432,6 +518,9 @@ public class QuizInterface extends javax.swing.JFrame {
     
     public void checkQuestions()
     {
+        
+        this.totalMarks = 0;
+        
         for(int i=0; i<activeQuestionList.size();i++)
         {
             Question tempQuestion= activeQuestionList.get(i);
@@ -648,6 +737,11 @@ public class QuizInterface extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Submit");
         jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout headerOptionsPanelLayout = new javax.swing.GroupLayout(headerOptionsPanel);
         headerOptionsPanel.setLayout(headerOptionsPanelLayout);
@@ -965,7 +1059,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 buttonBookmarkActionPerformed(evt);
             }
         });
-        mainPanel.add(buttonBookmark, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, -1, -1));
+        mainPanel.add(buttonBookmark, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 360, -1, -1));
 
         buttonNext.setBackground(new java.awt.Color(52, 152, 219));
         buttonNext.setForeground(new java.awt.Color(255, 255, 255));
@@ -975,7 +1069,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 buttonNextActionPerformed(evt);
             }
         });
-        mainPanel.add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, -1, -1));
+        mainPanel.add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 360, -1, -1));
 
         panelParent.setLayout(new java.awt.CardLayout());
 
@@ -990,7 +1084,6 @@ public class QuizInterface extends javax.swing.JFrame {
         jScrollPane1.setViewportView(labelComplexQuestion);
 
         complexOption1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(complexOption1);
         complexOption1.setText("jCheckBox1");
         complexOption1.setFocusPainted(false);
         complexOption1.addActionListener(new java.awt.event.ActionListener() {
@@ -1000,17 +1093,14 @@ public class QuizInterface extends javax.swing.JFrame {
         });
 
         complexOption3.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(complexOption3);
         complexOption3.setText("jCheckBox1");
         complexOption3.setFocusPainted(false);
 
         complexOption2.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(complexOption2);
         complexOption2.setText("jCheckBox1");
         complexOption2.setFocusPainted(false);
 
         complexOption4.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(complexOption4);
         complexOption4.setText("jCheckBox1");
         complexOption4.setFocusPainted(false);
 
@@ -1113,11 +1203,11 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(goodOption1)
                     .addComponent(goodOption2))
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(goodOption3)
                     .addComponent(goodOption4))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         panelParent.add(panelGood, "card3");
@@ -1281,8 +1371,18 @@ public class QuizInterface extends javax.swing.JFrame {
     private void buttonBookmarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBookmarkActionPerformed
         // TODO add your handling code here:
         
-        bookmarkList[this.activeQuestionIndex] = !bookmarkList[this.activeQuestionIndex];
+        if(statusList[this.activeQuestionIndex] == 1){
+            
+            statusList[this.activeQuestionIndex] = 0;
+        
+        } else if(statusList[this.activeQuestionIndex] == 0){
+        
+            statusList[this.activeQuestionIndex] = 1;
+        
+        }
+        
         displayQuestion();
+        
         
         
     }//GEN-LAST:event_buttonBookmarkActionPerformed
@@ -1440,10 +1540,104 @@ public class QuizInterface extends javax.swing.JFrame {
     private void buttonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNextActionPerformed
         // TODO add your handling code here:
         
+        Question currentQuestion = this.activeQuestionList.get(this.activeQuestionIndex);
+        int selectedType = currentQuestion.getType();
+        
+        if(selectedType == 1){
+            
+            Good question = (Good) this.activeQuestionList.get(this.activeQuestionIndex);
+            
+            if(goodOption1.isSelected()){
+                question.setSelectedAnswer(1);
+                question.setAttempted(true);
+            } else if(goodOption2.isSelected()){
+                question.setSelectedAnswer(2);
+                question.setAttempted(true);
+            } else if(goodOption3.isSelected()){
+                question.setSelectedAnswer(3);
+                question.setAttempted(true);
+            }  else if(goodOption4.isSelected()){
+                question.setSelectedAnswer(4);
+                question.setAttempted(true);
+            }
+            
+        }
+        else if(selectedType == 2){
+            
+            Tough question = (Tough) this.activeQuestionList.get(this.activeQuestionIndex);
+            
+            if(toughAnswer.getText().equals("")){
+
+                
+                question.setAttempted(false);
+            
+            }else {
+            
+               
+                question.setAttempted(true);
+                question.setSelectedAnswer(Integer.parseInt(toughAnswer.getText().trim()));
+                
+            }
+            
+            
+            
+        } else if(selectedType == 3){
+            
+            Complex question = (Complex) this.activeQuestionList.get(this.activeQuestionIndex);
+            
+            ArrayList<Integer> selectedAnswers = new ArrayList<>();
+            
+            boolean flag = false;
+            
+            if(complexOption1.isSelected()){
+                selectedAnswers.add(1);
+                flag = true;
+            } 
+            
+            if(complexOption2.isSelected()){
+                selectedAnswers.add(2);
+                flag = true;
+            }
+            
+            if(complexOption3.isSelected()){
+                selectedAnswers.add(3);
+                flag = true;
+            }
+            
+            if(complexOption4.isSelected()){
+                selectedAnswers.add(4);
+                flag = true;
+            }
+            
+            if(flag == true){
+                
+                question.setAttempted(true);
+                question.setSelectedAnswer(selectedAnswers);
+            }
+            else
+            {
+                question.setSelectedAnswer(null);
+                question.setAttempted(false);
+            }
+            
+            
+        }
+        
+        
         this.activeQuestionIndex++;
         displayQuestion();
         
     }//GEN-LAST:event_buttonNextActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        checkQuestions();
+        JOptionPane.showMessageDialog(null, this.totalMarks);
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

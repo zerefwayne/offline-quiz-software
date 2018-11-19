@@ -28,6 +28,7 @@ abstract public class Question {
         
         this.type = _type;
         this.content = _content;
+        this.isAttempted = false;
     
     }
     
@@ -43,6 +44,10 @@ abstract public class Question {
 
     public boolean isAttempted() {
         return isAttempted;
+    }
+    
+    public void setAttempted(boolean status){
+        this.isAttempted = status;
     }
 
     public boolean isCorrect() {
