@@ -27,7 +27,7 @@ public class QuizInterface extends javax.swing.JFrame {
     
     private String name;
     private String rollNumber;
-    
+    private int[] result;
     private ArrayList<Good> goodQuestions;
     private ArrayList<Tough> toughQuestions;
     private ArrayList<Complex> complexQuestions;
@@ -44,6 +44,9 @@ public class QuizInterface extends javax.swing.JFrame {
     
     Timer timer;
     private int min=60,sec=0;
+    private int good;
+    private int complex;
+    private int tough;
             
 
     /**
@@ -55,13 +58,14 @@ public class QuizInterface extends javax.swing.JFrame {
         
         initComponents();
         
-        this.goodQuestions = new ArrayList();
+        this.goodQuestions = new ArrayList<>();
         this.toughQuestions = new ArrayList<>();
         this.complexQuestions = new ArrayList<>();
         this.statusList = new int[20];
         
         Arrays.fill(statusList, 0);
-        
+        this.result = new int[9];
+        Arrays.fill(result,0);
         this.nextOpenQuestionIndex = 0;
         this.activeQuestionIndex = 0;
         
@@ -160,7 +164,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "C:\\Users\\DELL\\IOOM332C_OfflineQuizSoftware\\src\\data\\goodQuestions.csv";                       // FILE PATH
 
 
         File questionFile = new File(goodQuestionFilePath);
@@ -185,7 +189,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "C:\\Users\\DELL\\IOOM332C_OfflineQuizSoftware\\src\\data\\toughQuestions.csv";                  // FILE PATH
 
 
         File questionFile1 = new File(toughQuestionFilePath);
@@ -203,7 +207,7 @@ public class QuizInterface extends javax.swing.JFrame {
         // COMPLEX Question
         
 
-        String complexQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "C:\\Users\\DELL\\IOOM332C_OfflineQuizSoftware\\src\\data\\complexQuestions.csv";                  // FILE PATH
 
 
         File questionFile2 = new File(complexQuestionFilePath);
@@ -520,6 +524,9 @@ public class QuizInterface extends javax.swing.JFrame {
     {
         
         this.totalMarks = 0;
+        this.good = 0;
+        this.complex = 0;
+        this.tough = 0;
         
         for(int i=0; i<activeQuestionList.size();i++)
         {
@@ -528,30 +535,45 @@ public class QuizInterface extends javax.swing.JFrame {
             switch(tempQuestionType) {
                 case 1:
                 Good tempGoodQuestion =(Good) tempQuestion;
+                if(tempGoodQuestion.isAttempted())
+                {
+                    result[0]++;
                 if(tempGoodQuestion.getSelectedAnswer()==tempGoodQuestion.getCorrectResponse())
                 {
-                    totalMarks+=3;
-                    tempQuestion.setIsCorrect(true);
+                    result[1]++;
+                   // tempQuestion.setIsCorrect(true);
                 }
                 else
                 {
-                    totalMarks-=1;
-                    tempQuestion.setIsCorrect(false);
+                    result[2]++;
+                    //totalMarks-=1;
+                    //tempQuestion.setIsCorrect(false);
+                }
                 }
                 break;
                 
                 case 2:
-                Tough tempToughQuestion = (Tough) tempQuestion;    
+                Tough tempToughQuestion = (Tough) tempQuestion;
+                if(tempToughQuestion.isAttempted())
+                {
+                    result[3]++;
+                    
+              
                 if(tempToughQuestion.getSelectedAnswer()==tempToughQuestion.getCorrectResponse())
                 {
-                    totalMarks+=4;
-                    tempQuestion.setIsCorrect(true);
+                    result[4]++;
+                   // tough+=4;
+                   // totalMarks+=4;
+                   // tempQuestion.setIsCorrect(true);
                 }
                 
                 else
                 {
-                    totalMarks-=2;
-                    tempQuestion.setIsCorrect(false);
+                    result[5]++;
+                   // tough-=2;
+                   // totalMarks-=2;
+                    //tempQuestion.setIsCorrect(false);
+                }
                 }
                 break;
                 
@@ -559,22 +581,31 @@ public class QuizInterface extends javax.swing.JFrame {
                 Complex tempComplexQuestion = (Complex) tempQuestion; 
                 ArrayList<Integer> tempCorrectAnswers = tempComplexQuestion.getCorrectResponses();
                 ArrayList<Integer> tempSelectedAnswers = tempComplexQuestion.getSelectedAnswer();
+                if(tempComplexQuestion.isAttempted())
+                {
+                    result[6]++;
                 if(tempSelectedAnswers.equals(tempCorrectAnswers))
                 {
-                    totalMarks+=5;
-                    tempQuestion.setIsCorrect(true);
+                    result[7]++;
+                    //complex+=5;
+                    //totalMarks+=5;
+                    //tempQuestion.setIsCorrect(true);
                 }
                 
                 else
                 {
-                    totalMarks-=3;
-                    tempQuestion.setIsCorrect(false);
+                    result[8]++;
+                    //complex-=3;
+                    //totalMarks-=3;
+                    //tempQuestion.setIsCorrect(false);
+                }
                 }
                break;
        
             }
             
         }
+        
     }
     
     
@@ -655,9 +686,7 @@ public class QuizInterface extends javax.swing.JFrame {
         labelQuestionAttemptedCount1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1002, 576));
         setMinimumSize(new java.awt.Dimension(1002, 576));
-        setPreferredSize(new java.awt.Dimension(1022, 576));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(44, 62, 80));
@@ -1116,14 +1145,17 @@ public class QuizInterface extends javax.swing.JFrame {
                             .addComponent(jScrollPane1)
                             .addGroup(panelComplexLayout.createSequentialGroup()
                                 .addComponent(complexOption3)
-                                .addGap(228, 228, 228)
-                                .addComponent(complexOption4)
-                                .addGap(0, 180, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
-                    .addGroup(panelComplexLayout.createSequentialGroup()
-                        .addComponent(complexOption1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(complexOption2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelComplexLayout.createSequentialGroup()
+                        .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelComplexLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(complexOption4))
+                            .addGroup(panelComplexLayout.createSequentialGroup()
+                                .addComponent(complexOption1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                                .addComponent(complexOption2)))
                         .addGap(192, 192, 192))))
         );
         panelComplexLayout.setVerticalGroup(
@@ -1138,7 +1170,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(complexOption4)
                     .addComponent(complexOption3))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         panelParent.add(panelComplex, "card2");
@@ -1350,8 +1382,9 @@ public class QuizInterface extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1017, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1633,7 +1666,9 @@ public class QuizInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         checkQuestions();
-        JOptionPane.showMessageDialog(null, this.totalMarks);
+        this.dispose();
+        //new Result(result[]);
+        //JOptionPane.showMessageDialog(null, this.totalMarks);
         
         
         
