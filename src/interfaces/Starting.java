@@ -121,7 +121,8 @@ public class Starting extends javax.swing.JFrame {
         }
         else
         {
-            
+            this.dispose();
+
             new QuizInterface(textName.getText(), textRN.getText()).setVisible(true);
             
             
