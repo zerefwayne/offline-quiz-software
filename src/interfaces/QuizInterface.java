@@ -37,10 +37,13 @@ public class QuizInterface extends javax.swing.JFrame {
     private JButton[] questionButtonList;
     private int[] statusList;
     
+    private int bookmarkCount;
+    private int[] questionCounts;
+    
     
     private int nextOpenQuestionIndex;
     private int activeQuestionIndex;
-    private int totalMarks;
+    
     
     Timer timer;
     private int min=60,sec=0;
@@ -69,7 +72,9 @@ public class QuizInterface extends javax.swing.JFrame {
         this.nextOpenQuestionIndex = 0;
         this.activeQuestionIndex = 0;
         
-        this.totalMarks = 0;
+        this.questionCounts = new int[3];
+        Arrays.fill(questionCounts, 0);
+        this.bookmarkCount = 0;
         
         this.questionButtonList = new JButton[20];
         this.activeQuestionList = new ArrayList<>();
@@ -110,24 +115,33 @@ public class QuizInterface extends javax.swing.JFrame {
                 
                 if(min<0) {
                     min =0;sec =0;
-                    //time.setText("00:00");
                     JOptionPane.showMessageDialog(null,"Times UP!!");
                     timer.stop();
                     jButton1.doClick();
                     
                 }
                 sec--;
-                //minute.setText(Integer.toString(min));
-                //second.setText(Integer.toString(sec));
-                if(min < 10 && sec < 10){
-                    time.setText("0"+Integer.toString(min)+":"+"0"+Integer.toString(sec));
+             
+                
+                String secString = "";
+                String minString = "";
+                
+                if(sec<10){
+                    secString = "0"+sec;
                 }
-                else if(min < 10 && sec >= 10 ) {
-                    time.setText("0"+Integer.toString(min)+":"+Integer.toString(sec));
+                else
+                {
+                    secString = Integer.toString(sec);
                 }
-                else{
-                    time.setText(Integer.toString(min)+":"+Integer.toString(sec));
+                if(min<10){
+                    minString = "0"+min;
                 }
+                else
+                {
+                   minString = Integer.toString(min);
+                }
+                
+                time.setText(minString+":"+secString);
                 
             }
         });
@@ -164,7 +178,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         // read GOOD Questions
 
-        String goodQuestionFilePath = "C:\\Users\\DELL\\IOOM332C_OfflineQuizSoftware\\src\\data\\goodQuestions.csv";                       // FILE PATH
+        String goodQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/goodQuestions.csv";                       // FILE PATH
 
 
         File questionFile = new File(goodQuestionFilePath);
@@ -189,7 +203,7 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //read TOUGH Questions
         
-        String toughQuestionFilePath = "C:\\Users\\DELL\\IOOM332C_OfflineQuizSoftware\\src\\data\\toughQuestions.csv";                  // FILE PATH
+        String toughQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/toughQuestions.csv";                  // FILE PATH
 
 
         File questionFile1 = new File(toughQuestionFilePath);
@@ -207,7 +221,7 @@ public class QuizInterface extends javax.swing.JFrame {
         // COMPLEX Question
         
 
-        String complexQuestionFilePath = "C:\\Users\\DELL\\IOOM332C_OfflineQuizSoftware\\src\\data\\complexQuestions.csv";                  // FILE PATH
+        String complexQuestionFilePath = "/home/aayushjoglekar/IOOM332C_OfflineQuizSoftware/src/data/complexQuestions.csv";                  // FILE PATH
 
 
         File questionFile2 = new File(complexQuestionFilePath);
@@ -249,7 +263,7 @@ public class QuizInterface extends javax.swing.JFrame {
             
         } else if(this.statusList[this.activeQuestionIndex] == 1) {
             
-            this.buttonBookmark.setEnabled(true);
+           
             this.questionButtonList[this.activeQuestionIndex].setBackground(Color.red);
             this.buttonBookmark.setText("Unbookmark");
             
@@ -258,9 +272,16 @@ public class QuizInterface extends javax.swing.JFrame {
         } else if(this.statusList[this.activeQuestionIndex] == 2) {
                 
             this.questionButtonList[this.activeQuestionIndex].setBackground(Color.green);
+            
            
         }
 
+        
+        this.qBookmarked.setText(Integer.toString(this.bookmarkCount));
+        this.gCount.setText(Integer.toString(this.questionCounts[0]));
+        this.tCount.setText(Integer.toString(this.questionCounts[1]));
+        this.cCount.setText(Integer.toString(this.questionCounts[2]));
+        
         
     }
     
@@ -438,7 +459,7 @@ public class QuizInterface extends javax.swing.JFrame {
             complexOption3.setSelected(false);
             complexOption4.setSelected(false);
             
-               
+            buttonGroup3.clearSelection();
             buttonGroup2.clearSelection();
            
             
@@ -523,7 +544,7 @@ public class QuizInterface extends javax.swing.JFrame {
     public void checkQuestions()
     {
         
-        this.totalMarks = 0;
+        
         this.good = 0;
         this.complex = 0;
         this.tough = 0;
@@ -657,21 +678,21 @@ public class QuizInterface extends javax.swing.JFrame {
         panelParent = new javax.swing.JPanel();
         panelComplex = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        labelComplexQuestion = new javax.swing.JLabel();
+        labelComplexQuestion = new javax.swing.JTextArea();
         complexOption1 = new javax.swing.JCheckBox();
         complexOption3 = new javax.swing.JCheckBox();
         complexOption2 = new javax.swing.JCheckBox();
         complexOption4 = new javax.swing.JCheckBox();
         panelGood = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        labelGoodQuestion = new javax.swing.JLabel();
+        labelGoodQuestion = new javax.swing.JTextArea();
         goodOption1 = new javax.swing.JRadioButton();
         goodOption2 = new javax.swing.JRadioButton();
         goodOption3 = new javax.swing.JRadioButton();
         goodOption4 = new javax.swing.JRadioButton();
         panelTough = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        labelToughQuestion = new javax.swing.JLabel();
+        labelToughQuestion = new javax.swing.JTextArea();
         toughAnswer = new javax.swing.JTextField();
         panelSelect = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -679,11 +700,16 @@ public class QuizInterface extends javax.swing.JFrame {
         typeTough = new javax.swing.JRadioButton();
         typeComplex = new javax.swing.JRadioButton();
         buttonTypeSelect = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        labelQuestionAttemptedCount = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        labelQuestionAttemptedCount1 = new javax.swing.JLabel();
+        qBookmarked = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        cCount = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        tCount = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        gCount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1002, 576));
@@ -729,10 +755,12 @@ public class QuizInterface extends javax.swing.JFrame {
 
         time.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         time.setForeground(new java.awt.Color(255, 255, 255));
+        time.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         time.setText("60:00");
         time.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("left");
 
         javax.swing.GroupLayout headerTimePanelLayout = new javax.swing.GroupLayout(headerTimePanel);
@@ -740,22 +768,20 @@ public class QuizInterface extends javax.swing.JFrame {
         headerTimePanelLayout.setHorizontalGroup(
             headerTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerTimePanelLayout.createSequentialGroup()
-                .addContainerGap(174, Short.MAX_VALUE)
-                .addGroup(headerTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(time, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerTimePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(34, 34, 34)))
-                .addGap(160, 160, 160))
+                .addContainerGap(160, Short.MAX_VALUE)
+                .addGroup(headerTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(time, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(108, 108, 108))
         );
         headerTimePanelLayout.setVerticalGroup(
             headerTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerTimePanelLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+            .addGroup(headerTimePanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(time)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(8, 8, 8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(headerTimePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 0, -1, -1));
@@ -1106,11 +1132,13 @@ public class QuizInterface extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        labelComplexQuestion.setBackground(new java.awt.Color(255, 255, 255));
-        labelComplexQuestion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelComplexQuestion.setText("jLabel4");
-        labelComplexQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        labelComplexQuestion.setColumns(20);
+        labelComplexQuestion.setRows(5);
+        labelComplexQuestion.setBorder(null);
+        labelComplexQuestion.setFocusable(false);
         jScrollPane1.setViewportView(labelComplexQuestion);
+        labelComplexQuestion.setWrapStyleWord(true);
+        labelComplexQuestion.setLineWrap(true);
 
         complexOption1.setBackground(new java.awt.Color(255, 255, 255));
         complexOption1.setText("jCheckBox1");
@@ -1128,6 +1156,11 @@ public class QuizInterface extends javax.swing.JFrame {
         complexOption2.setBackground(new java.awt.Color(255, 255, 255));
         complexOption2.setText("jCheckBox1");
         complexOption2.setFocusPainted(false);
+        complexOption2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                complexOption2ActionPerformed(evt);
+            }
+        });
 
         complexOption4.setBackground(new java.awt.Color(255, 255, 255));
         complexOption4.setText("jCheckBox1");
@@ -1140,23 +1173,16 @@ public class QuizInterface extends javax.swing.JFrame {
             .addGroup(panelComplexLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                     .addGroup(panelComplexLayout.createSequentialGroup()
                         .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(panelComplexLayout.createSequentialGroup()
-                                .addComponent(complexOption3)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelComplexLayout.createSequentialGroup()
-                        .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelComplexLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(complexOption4))
-                            .addGroup(panelComplexLayout.createSequentialGroup()
-                                .addComponent(complexOption1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
-                                .addComponent(complexOption2)))
-                        .addGap(192, 192, 192))))
+                            .addComponent(complexOption1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(complexOption3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(complexOption2, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                            .addComponent(complexOption4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         panelComplexLayout.setVerticalGroup(
             panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1170,18 +1196,20 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addGroup(panelComplexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(complexOption4)
                     .addComponent(complexOption3))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         panelParent.add(panelComplex, "card2");
 
         panelGood.setBackground(new java.awt.Color(255, 255, 255));
 
-        labelGoodQuestion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelGoodQuestion.setText("jLabel4");
-        labelGoodQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        labelGoodQuestion.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        labelGoodQuestion.setColumns(20);
+        labelGoodQuestion.setRows(5);
+        labelGoodQuestion.setBorder(null);
+        labelGoodQuestion.setFocusable(false);
         jScrollPane2.setViewportView(labelGoodQuestion);
+        labelGoodQuestion.setWrapStyleWord(true);
+        labelGoodQuestion.setLineWrap(true);
 
         goodOption1.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup2.add(goodOption1);
@@ -1210,21 +1238,17 @@ public class QuizInterface extends javax.swing.JFrame {
             panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGoodLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
                     .addGroup(panelGoodLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGoodLayout.createSequentialGroup()
-                        .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelGoodLayout.createSequentialGroup()
-                                .addComponent(goodOption3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
-                                .addComponent(goodOption4))
-                            .addGroup(panelGoodLayout.createSequentialGroup()
-                                .addComponent(goodOption1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(goodOption2)))
-                        .addGap(172, 172, 172))))
+                        .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(goodOption1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                            .addComponent(goodOption3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(goodOption2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                            .addComponent(goodOption4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         panelGoodLayout.setVerticalGroup(
             panelGoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1246,10 +1270,13 @@ public class QuizInterface extends javax.swing.JFrame {
 
         panelTough.setBackground(new java.awt.Color(255, 255, 255));
 
-        labelToughQuestion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        labelToughQuestion.setText("jLabel4");
-        labelToughQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        labelToughQuestion.setColumns(20);
+        labelToughQuestion.setRows(5);
+        labelToughQuestion.setBorder(null);
+        labelToughQuestion.setFocusable(false);
         jScrollPane3.setViewportView(labelToughQuestion);
+        labelToughQuestion.setWrapStyleWord(true);
+        labelToughQuestion.setLineWrap(true);
 
         toughAnswer.setName(""); // NOI18N
 
@@ -1318,22 +1345,22 @@ public class QuizInterface extends javax.swing.JFrame {
         panelSelect.setLayout(panelSelectLayout);
         panelSelectLayout.setHorizontalGroup(
             panelSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSelectLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSelectLayout.createSequentialGroup()
+                .addContainerGap(179, Short.MAX_VALUE)
                 .addGroup(panelSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelSelectLayout.createSequentialGroup()
-                        .addGap(231, 231, 231)
+                        .addGap(35, 35, 35)
                         .addComponent(jLabel4))
                     .addGroup(panelSelectLayout.createSequentialGroup()
-                        .addGap(196, 196, 196)
                         .addComponent(typeGood)
                         .addGap(46, 46, 46)
                         .addComponent(typeTough)
                         .addGap(41, 41, 41)
                         .addComponent(typeComplex))
                     .addGroup(panelSelectLayout.createSequentialGroup()
-                        .addGap(286, 286, 286)
+                        .addGap(90, 90, 90)
                         .addComponent(buttonTypeSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addGap(159, 159, 159))
         );
         panelSelectLayout.setVerticalGroup(
             panelSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1353,27 +1380,49 @@ public class QuizInterface extends javax.swing.JFrame {
         panelParent.add(panelSelect, "card5");
 
         mainPanel.add(panelParent, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 640, 270));
+        mainPanel.add(filler1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(52, 152, 219));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Questions Bookmarked:");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, -1, 40));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
 
-        labelQuestionAttemptedCount.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        labelQuestionAttemptedCount.setForeground(new java.awt.Color(255, 255, 255));
-        labelQuestionAttemptedCount.setText("12");
-        jPanel3.add(labelQuestionAttemptedCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, -1, 40));
+        qBookmarked.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        qBookmarked.setForeground(new java.awt.Color(255, 255, 255));
+        qBookmarked.setText("0");
+        jPanel3.add(qBookmarked, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 40));
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Questions Attempted:");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, -1));
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Complex");
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 0, -1, 40));
 
-        labelQuestionAttemptedCount1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        labelQuestionAttemptedCount1.setForeground(new java.awt.Color(255, 255, 255));
-        labelQuestionAttemptedCount1.setText("14/20");
-        jPanel3.add(labelQuestionAttemptedCount1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 40));
+        cCount.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        cCount.setForeground(new java.awt.Color(255, 255, 255));
+        cCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cCount.setText("0");
+        jPanel3.add(cCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 40, 40));
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Tough");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 0, -1, 40));
+
+        tCount.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tCount.setForeground(new java.awt.Color(255, 255, 255));
+        tCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tCount.setText("0");
+        jPanel3.add(tCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 40, 40));
+
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Good");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 0, -1, 40));
+
+        gCount.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        gCount.setForeground(new java.awt.Color(255, 255, 255));
+        gCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gCount.setText("0");
+        jPanel3.add(gCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 0, 40, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1381,10 +1430,7 @@ public class QuizInterface extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1017, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1017, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1392,7 +1438,7 @@ public class QuizInterface extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -1406,10 +1452,12 @@ public class QuizInterface extends javax.swing.JFrame {
         
         if(statusList[this.activeQuestionIndex] == 1){
             
+            this.bookmarkCount--;
             statusList[this.activeQuestionIndex] = 0;
         
         } else if(statusList[this.activeQuestionIndex] == 0){
         
+            this.bookmarkCount++;
             statusList[this.activeQuestionIndex] = 1;
         
         }
@@ -1553,10 +1601,13 @@ public class QuizInterface extends javax.swing.JFrame {
         //1 - goodQuestion 2 - toughQuestion 3 - complexQuestion 0 - questionSelectPanel
         
         if(typeGood.isSelected()){
+            this.questionCounts[0]++;
             questionTypeSelected = 1;
         } else if(typeTough.isSelected()){
+            this.questionCounts[1]++;
             questionTypeSelected = 2;
         } else {
+            this.questionCounts[2]++;
             questionTypeSelected = 3;
         }
         
@@ -1583,15 +1634,19 @@ public class QuizInterface extends javax.swing.JFrame {
             if(goodOption1.isSelected()){
                 question.setSelectedAnswer(1);
                 question.setAttempted(true);
+               
             } else if(goodOption2.isSelected()){
                 question.setSelectedAnswer(2);
                 question.setAttempted(true);
+               
             } else if(goodOption3.isSelected()){
                 question.setSelectedAnswer(3);
                 question.setAttempted(true);
+             
             }  else if(goodOption4.isSelected()){
                 question.setSelectedAnswer(4);
                 question.setAttempted(true);
+              
             }
             
         }
@@ -1601,14 +1656,14 @@ public class QuizInterface extends javax.swing.JFrame {
             
             if(toughAnswer.getText().equals("")){
 
-                
                 question.setAttempted(false);
+               
             
             }else {
             
-               
                 question.setAttempted(true);
                 question.setSelectedAnswer(Integer.parseInt(toughAnswer.getText().trim()));
+              
                 
             }
             
@@ -1645,11 +1700,13 @@ public class QuizInterface extends javax.swing.JFrame {
             if(flag == true){
                 
                 question.setAttempted(true);
+                
                 question.setSelectedAnswer(selectedAnswers);
             }
             else
             {
-                question.setSelectedAnswer(null);
+                question.setSelectedAnswer(selectedAnswers);
+               
                 question.setAttempted(false);
             }
             
@@ -1667,12 +1724,15 @@ public class QuizInterface extends javax.swing.JFrame {
         
         checkQuestions();
         this.dispose();
-        //new Result(result[]);
-        //JOptionPane.showMessageDialog(null, this.totalMarks);
-        
+        new Result(this.result).setVisible(true);
+       
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void complexOption2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complexOption2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_complexOption2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1717,10 +1777,13 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton buttonNext;
     private javax.swing.JButton buttonTypeSelect;
+    private javax.swing.JLabel cCount;
     private javax.swing.JCheckBox complexOption1;
     private javax.swing.JCheckBox complexOption2;
     private javax.swing.JCheckBox complexOption3;
     private javax.swing.JCheckBox complexOption4;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel gCount;
     private javax.swing.JRadioButton goodOption1;
     private javax.swing.JRadioButton goodOption2;
     private javax.swing.JRadioButton goodOption3;
@@ -1733,18 +1796,18 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel labelComplexQuestion;
-    private javax.swing.JLabel labelGoodQuestion;
-    private javax.swing.JLabel labelQuestionAttemptedCount;
-    private javax.swing.JLabel labelQuestionAttemptedCount1;
-    private javax.swing.JLabel labelToughQuestion;
+    private javax.swing.JTextArea labelComplexQuestion;
+    private javax.swing.JTextArea labelGoodQuestion;
+    private javax.swing.JTextArea labelToughQuestion;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel panelComplex;
     private javax.swing.JPanel panelGood;
@@ -1772,6 +1835,8 @@ public class QuizInterface extends javax.swing.JFrame {
     private javax.swing.JButton q7;
     private javax.swing.JButton q8;
     private javax.swing.JButton q9;
+    private javax.swing.JLabel qBookmarked;
+    private javax.swing.JLabel tCount;
     private javax.swing.JLabel time;
     private javax.swing.JTextField toughAnswer;
     private javax.swing.JRadioButton typeComplex;

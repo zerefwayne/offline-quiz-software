@@ -49,15 +49,11 @@ public class Complex extends Question {
     }
     
     public void setSelectedAnswer(ArrayList<Integer> answers){
-        
-        for(Integer i: answers){
-            JOptionPane.showMessageDialog(null, i);
-        }
-        
+      
         this.selectedAnswer = answers;
+       
         
     }
-
     
     
     
