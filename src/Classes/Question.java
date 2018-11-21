@@ -36,8 +36,6 @@ abstract public class Question {
         return content;
     }
 
-    
-
     public Dictionary getOptions() {
         return options;
     }

@@ -35,10 +35,6 @@ public class Good extends Question{
     public String getContent() {
         return content;
     }
-    
-//    public ArrayList<String> getOptions() {
-//        return options;
-//    }
 
     public int getCorrectResponse() {
         return correctResponse;

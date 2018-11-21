@@ -46,7 +46,7 @@ public class QuizInterface extends javax.swing.JFrame {
     
     
     Timer timer;
-    private int min=60,sec=0;
+    private int min=90,sec=0;
     private int good;
     private int complex;
     private int tough;
@@ -290,10 +290,16 @@ public class QuizInterface extends javax.swing.JFrame {
         
         if(this.activeQuestionIndex == this.nextOpenQuestionIndex){
 
-            this.buttonNext.setEnabled(false);
-            this.buttonBookmark.setEnabled(false);
-
-            resetPanel();
+        this.buttonNext.setEnabled(false);
+        this.buttonBookmark.setEnabled(false);
+                
+        panelParent.removeAll();
+        panelParent.add(panelSelect);
+        panelParent.repaint();
+        panelParent.revalidate();
+        
+        questionButtonList[nextOpenQuestionIndex].setEnabled(true);
+            
             
             
         }
@@ -438,20 +444,6 @@ public class QuizInterface extends javax.swing.JFrame {
         
     }
     
-    public void resetPanel(){
-        
-                
-                panelParent.removeAll();
-                panelParent.add(panelSelect);
-                panelParent.repaint();
-                panelParent.revalidate();
-        
-                questionButtonList[nextOpenQuestionIndex].setEnabled(true);
-            
-                
-        
-    }
-        
     public void resetOptionsPanel(){
         
             complexOption1.setSelected(false);
@@ -472,7 +464,6 @@ public class QuizInterface extends javax.swing.JFrame {
         
         //toggleBookmarkNext(); //turns on buttons
         Random random = new Random();
-        
          
         if(_selectedType == 1){
             
@@ -487,13 +478,6 @@ public class QuizInterface extends javax.swing.JFrame {
             goodQuestions.remove(index);
             
             //take from GoodQuestion List, add it to activeQuestionList[activeQuestionIndex]
-           
-            
-            
-            
-            
-            
-            
             
         } else if(_selectedType == 2){
             
@@ -502,17 +486,6 @@ public class QuizInterface extends javax.swing.JFrame {
             activeQuestionList.add(toughQuestions.get(index));
             toughQuestions.remove(index);
             
-            
-            
-            
-            //fetch Tough Question Here
-            //take from ToughQuestion List, add it to activeQuestionList[activeQuestionIndex]
-           
-            
-            
-            
-            
-            
         } else if(_selectedType == 3){
             
             //generateRandomNumberAccordingToComplexQuestionSize
@@ -520,23 +493,9 @@ public class QuizInterface extends javax.swing.JFrame {
             activeQuestionList.add(complexQuestions.get(index));
             complexQuestions.remove(index);
             
-            
-            
-            //fetch Complex Question Here
-            //take from GoodQuestion List, add it to activeQuestionList[activeQuestionIndex]
-            
-            
-            
-            
-            
-            
-            
-            
         }
         
-        
         this.nextOpenQuestionIndex++;
-        
         displayQuestion();
             
     }
@@ -1391,8 +1350,9 @@ public class QuizInterface extends javax.swing.JFrame {
 
         qBookmarked.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         qBookmarked.setForeground(new java.awt.Color(255, 255, 255));
+        qBookmarked.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         qBookmarked.setText("0");
-        jPanel3.add(qBookmarked, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 40));
+        jPanel3.add(qBookmarked, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 30, 40));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Complex");

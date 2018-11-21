@@ -28,14 +28,6 @@ public class Complex extends Question {
         this.correctResponses = _correctResponses;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-//    public ArrayList<String> getOptions() {
-//        return options;
-//    }
-
     public ArrayList<Integer> getCorrectResponses() {
         return correctResponses;
     }
